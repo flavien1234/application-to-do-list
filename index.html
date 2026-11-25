@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mes tâches</title>
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Mes tâches</h1>
+    <div class="topbar-actions">
+      <button id="themeBtn" class="icon-btn" title="Changer de thème" aria-label="Changer de thème">◐</button>
+      <button id="menuBtn" class="icon-btn" title="Sauvegarde" aria-label="Sauvegarde">⋯</button>
+      <div id="menu" class="menu" hidden>
+        <button id="exportBtn">Exporter (JSON)</button>
+        <label class="menu-item">Importer (JSON)<input type="file" id="importInput" accept="application/json" hidden /></label>
+        <button id="clearDoneBtn">Supprimer les tâches terminées</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="stats" id="stats"></section>
+
+    <nav class="tabs" id="tabs" role="tablist">
+      <button class="tab active" data-cat="all" role="tab">Tout</button>
+      <button class="tab" data-cat="cours" role="tab">📚 Cours</button>
+      <button class="tab" data-cat="alternance" role="tab">💼 Alternance</button>
+      <button class="tab" data-cat="perso" role="tab">🏠 Perso</button>
+    </nav>
+
+    <form id="quickAdd" class="quick-add" autocomplete="off">
+      <input id="qaTitle" type="text" placeholder="Ajouter une tâche… (ex : Rendre le TP de maths)" required />
+      <select id="qaCat" aria-label="Catégorie">
+        <option value="cours">📚 Cours</option>
+        <option value="alternance">💼 Alternance</option>
+        <option value="perso">🏠 Perso</option>
+      </select>
+      <input id="qaDate" type="date" aria-label="Échéance" />
+      <button type="submit" class="primary">Ajouter</button>
+    </form>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Rechercher…" aria-label="Rechercher" />
+      <select id="statusFilter" aria-label="Statut">
+        <option value="todo">À faire</option>
+        <option value="done">Terminées</option>
+        <option value="all">Toutes</option>
+      </select>
+      <select id="sortBy" aria-label="Trier">
+        <option value="due">Par échéance</option>
+        <option value="priority">Par priorité</option>
+        <option value="created">Plus récentes</option>
+      </select>
+    </div>
+
+    <div id="list"></div>
+  </main>
+
+  <dialog id="editDialog">
+    <form method="dialog" id="editForm" class="edit-form">
+      <h2 id="editHeading">Modifier la tâche</h2>
+      <label>Titre
+        <input id="edTitle" type="text" required />
+      </label>
+      <div class="row">
+        <label>Catégorie
+          <select id="edCat">
+            <option value="cours">📚 Cours</option>
+            <option value="alternance">💼 Alternance</option>
+            <option value="perso">🏠 Perso</option>
+          </select>
+        </label>
+        <label>Priorité
+          <select id="edPrio">
+            <option value="low">Basse</option>
+            <option value="medium">Moyenne</option>
+            <option value="high">Haute</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Échéance
+          <input id="edDate" type="date" />
+        </label>
+        <label>Matière / projet
+          <input id="edTag" type="text" placeholder="ex : Maths, Projet X" />
+        </label>
+      </div>
+      <label>Notes
+        <textarea id="edNotes" rows="3" placeholder="Détails, liens…"></textarea>
+      </label>
+      <fieldset class="subtasks">
+        <legend>Sous-tâches</legend>
+        <ul id="edSubs"></ul>
+        <div class="sub-add">
+          <input id="edSubInput" type="text" placeholder="Ajouter une sous-tâche" />
+          <button type="button" id="edSubAdd">+</button>
+        </div>
+      </fieldset>
+      <menu class="dialog-actions">
+        <button type="button" id="edDelete" class="danger">Supprimer</button>
+        <span class="spacer"></span>
+        <button value="cancel" formnovalidate>Annuler</button>
+        <button value="save" class="primary" id="edSave">Enregistrer</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
